@@ -20,8 +20,8 @@ private:
   }
 
 public:
-   RobotController(int defaultSpeed) {
-    AFMS = Adafruit_MotorShield(); 
+   RobotController(int defaultSpeed, Adafruit_MotorShield motorShield) {
+    AFMS = motorShield;
     forwardMotor1 = AFMS.getMotor(1);
     forwardMotor2 = AFMS.getMotor(2);
     backwardMotor2 = AFMS.getMotor(3);
