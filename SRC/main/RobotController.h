@@ -1,9 +1,9 @@
 #include <Adafruit_MotorShield.h>
-//#include "utility/Adafruit_MS_PWMServoDriver.h"
+#include "utility/Adafruit_MS_PWMServoDriver.h"
 
-class RobotController {
+class AFMSController {
 private:
-  Adafruit_MotorShield *AFMS;
+  Adafruit_MotorShield AFMS;
   
   Adafruit_DCMotor *forwardMotor1;
   Adafruit_DCMotor *forwardMotor2;
@@ -20,33 +20,25 @@ private:
   }
 
 public:
-   RobotController(int defaultSpeed, Adafruit_MotorShield *motorShield) {
+   AFMSController(int defaultSpeed, Adafruit_MotorShield motorShield) {
     AFMS = motorShield;
-    forwardMotor1 = AFMS->getMotor(1);
-    forwardMotor2 = AFMS->getMotor(2);
-    backwardMotor2 = AFMS->getMotor(3);
-    backwardMotor2 = AFMS->getMotor(4);
+    forwardMotor1 = AFMS.getMotor(1);
+    forwardMotor2 = AFMS.getMotor(2);
+    backwardMotor1 = AFMS.getMotor(3);
+    backwardMotor2 = AFMS.getMotor(4);
+    this->defaultSpeed = defaultSpeed;
   }
 
   void begin() {
-    AFMS->begin();
-  }
-
-  void setMotors(Adafruit_DCMotor *m1, Adafruit_DCMotor *m2, Adafruit_DCMotor *m3, Adafruit_DCMotor* m4) {
-    forwardMotor1 = m1;
-    forwardMotor2 = m2;
-    backwardMotor1 = m3;
-    backwardMotor2 = m4;
+    AFMS.begin();
   }
 
   void forward(int speed){
-    forwardMotor1->setSpeed(speed);
+    setSpeed(speed);
+
     forwardMotor1->run(FORWARD);
-    forwardMotor2->setSpeed(speed);
     forwardMotor2->run(FORWARD);
-    backwardMotor1->setSpeed(speed);
     backwardMotor1->run(FORWARD);
-    backwardMotor2->setSpeed(speed);
     backwardMotor2->run(FORWARD);
   }
 
@@ -54,21 +46,12 @@ public:
     forward(defaultSpeed);
   }
 
-  void forward(Adafruit_DCMotor *m1) {
-    forwardMotor1 = m1;
-
-    setSpeed(128);
-    forwardMotor1->run(FORWARD);
-  }
-
   void backward(int speed) {
-    forwardMotor1->setSpeed(speed);
+    setSpeed(speed);
+
     forwardMotor1->run(BACKWARD);
-    forwardMotor2->setSpeed(speed);
     forwardMotor2->run(BACKWARD);
-    backwardMotor1->setSpeed(speed);
     backwardMotor1->run(BACKWARD);
-    backwardMotor2->setSpeed(speed);
     backwardMotor2->run(BACKWARD);
   }
 
@@ -77,13 +60,11 @@ public:
   }
 
   void right(int speed) {
-    forwardMotor1->setSpeed(speed);
+    setSpeed(speed);
+
     forwardMotor1->run(FORWARD);
-    forwardMotor2->setSpeed(speed);
     forwardMotor2->run(BACKWARD);
-    backwardMotor1->setSpeed(speed);
     backwardMotor1->run(FORWARD);
-    backwardMotor2->setSpeed(speed);
     backwardMotor2->run(BACKWARD);
   }
 
@@ -92,13 +73,11 @@ public:
   }
 
   void left(int speed) {
-    forwardMotor1->setSpeed(speed);
+    setSpeed(speed);
+
     forwardMotor1->run(BACKWARD);
-    forwardMotor2->setSpeed(speed);
     forwardMotor2->run(FORWARD);
-    backwardMotor1->setSpeed(speed);
     backwardMotor1->run(BACKWARD);
-    backwardMotor2->setSpeed(speed);
     backwardMotor2->run(FORWARD);
   }
 

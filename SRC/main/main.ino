@@ -1,33 +1,20 @@
-#include "RobotController.h"
+#include <Adafruit_MotorShield.h>
+#include"RobotController.h"
 
-Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-RobotController robot = RobotController(128, &AFMS);
-
-  Adafruit_DCMotor *forwardMotor1;
-  Adafruit_DCMotor *forwardMotor2;
-  Adafruit_DCMotor *backwardMotor1;
-  Adafruit_DCMotor *backwardMotor2;
-
+AFMSController AFMS = AFMSController(255, Adafruit_MotorShield());
 
 void setup() {
-  robot.begin();
-
-  forwardMotor1 = AFMS.getMotor(1);
-  forwardMotor2 = AFMS.getMotor(2);
-  backwardMotor2 = AFMS.getMotor(3);
-  backwardMotor2 = AFMS.getMotor(4);
-
-  //robot.setMotors(forwardMotor1, forwardMotor2, backwardMotor1, backwardMotor2);
+  AFMS.begin();
 }
 
 void loop() {
   int val = analogRead(A0);
   int ir_cm = exp(8.5841-log(val));
 
-  robot.forward();
-  delay(3000);
-  robot.stop();
-
-  //forwardMotor1->setSpeed(128);
-  //forwardMotor1->run(FORWARD);
+  AFMS.forward();
+  delay(2000);
+  AFMS.stop();
+  delay(2000);
+  AFMS.backward();
+  delay(2000);
 }
