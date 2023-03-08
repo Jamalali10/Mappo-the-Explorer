@@ -1,8 +1,13 @@
 #include <Adafruit_MotorShield.h>
 #include "RobotController.h"
+#include <queue>
 
 AFMSController AFMS = AFMSController(70, Adafruit_MotorShield());
 const int pingPin = 7;
+
+int slidingWindowSize = 10;
+queue<long> ir_values;
+queue<long> sonar_values;
 
 void setup() {
   Serial.begin(9600);
@@ -12,16 +17,26 @@ void setup() {
 void loop() {
   int val = analogRead(A0);
   
-  // https://www.makerguides.com/sharp-gp2y0a21yk0f-ir-distance-sensor-arduino-tutorial/
-  //int ir_cm = 29.988 * pow(val, -1.173);
-  
-  int ir_cm = exp(8.5841-log(val));
-  long sonar_cm = distanceToObject();
+  long ir_reading = exp(8.5841-log(val));
+  long sonar_reading = distanceToObject();
+
+  ir_values.push(ir_reading);
+  sonar_values.push(sonar_reading);
+
+  long ir_cm = averageValues(ir_values);
+  long sonar_cm = averageValues(sonar_values);
+
+  if (ir_values.size() > slidingWindowSize) {
+    ir_values.pop();
+  }
+  if (sonar_values.size() > slidingWindowSize) {
+    sonar_values.pop();
+  }
   
   Serial.print("IR Value: ");
-  Serial.println(ir_cm); 
+  Serial.println(ir_reading); 
   Serial.print("Sonar Value: ");
-  Serial.println(sonar_cm);
+  Serial.println(sonar_reading);
 
   if(ir_cm < 15) {
     AFMS.backward();
@@ -69,4 +84,16 @@ long microsecondsToCentimeters(long microseconds) {
   // The ping travels out and back, so to find the distance of the object we
   // take half of the distance travelled.
   return microseconds / 29 / 2;
+}
+
+long averageValues (queue<long> &values) {
+  int count = 0;
+  long sum = 0;
+  
+  for (auto it = values.cbegin(); it != values.cend(); it++) {
+    sum += *it;
+    count++;
+  }
+
+  return sum / count;
 }
