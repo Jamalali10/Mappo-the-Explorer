@@ -5,8 +5,9 @@
 
 int sonarPin = 7;
 int irPin = A0;
+int defaultRobotSpeed = 70;
 
-RobotController robot = RobotController(70, Adafruit_MotorShield());
+RobotController robot = RobotController(defaultRobotSpeed, Adafruit_MotorShield());
 Sonar sonar = Sonar(sonarPin);
 IR ir = IR(irPin);
 
