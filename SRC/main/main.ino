@@ -16,9 +16,6 @@ void setup() {
 }
 
 void loop() {
-  sonar.ping();
-  ir.read();
-
   int sonar_cm = sonar.noiseFilteredReading();
   int ir_cm = ir.noiseFilteredReading();
   
