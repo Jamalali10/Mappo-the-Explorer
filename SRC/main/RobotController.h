@@ -1,7 +1,8 @@
+#pragma once
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 
-class AFMSController {
+class RobotController {
 private:
   Adafruit_MotorShield AFMS;
   
@@ -20,7 +21,7 @@ private:
   }
 
 public:
-   AFMSController(int defaultSpeed, Adafruit_MotorShield motorShield) {
+   RobotController(int defaultSpeed, Adafruit_MotorShield motorShield) {
     AFMS = motorShield;
     forwardMotor1 = AFMS.getMotor(1);
     forwardMotor2 = AFMS.getMotor(2);
