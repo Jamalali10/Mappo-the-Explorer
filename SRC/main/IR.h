@@ -29,4 +29,8 @@ public:
     readValue();
     return readings.average();
   }
+
+  String windowContents() {
+    return readings.toString();
+  }
 };

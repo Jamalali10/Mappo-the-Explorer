@@ -26,14 +26,16 @@ void loop() {
   Serial.println(ir_cm); 
   Serial.print("Sonar Value: ");
   Serial.println(sonar_cm);
+  Serial.println(sonar.windowContents());
+  Serial.println(ir.windowContents());
 
   if(ir_cm < 13) {
-    robot.backward();
+    //robot.backward();
   }
 
   if(sonar_cm < 25) {
-    robot.forward();
+    //robot.forward();
   }
-  
+  robot.stop();
   delay(50);
 }

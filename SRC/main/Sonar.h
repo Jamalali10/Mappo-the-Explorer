@@ -57,4 +57,8 @@ public:
     ping();
     return readings.average();
   }
+
+  String windowContents() {
+    return readings.toString();
+  }
 };

@@ -5,7 +5,7 @@
 // https://stackoverflow.com/questions/13431567/how-to-make-an-array-with-a-dynamic-size-general-usage-of-dynamic-arrays-maybe
 
 class SlidingWindow {
-public:
+private:
   int *window;
   int *windowCopy;
   int size;
@@ -93,5 +93,17 @@ public:
     }
     quickSort(ar, r - ar + 1);
     quickSort(l, ar + n - l);
+  }
+
+  String toString() {
+    String str = "";
+
+//    for (int i = 0; i < arraySize; i++) {
+//      int item = window[i];
+//      String concat = String(item);
+//      str += concat + " ";
+//    }
+    str = String(window[0]);
+    return str;
   }
 };
