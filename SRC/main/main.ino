@@ -16,6 +16,8 @@ void setup() {
   robot.begin();
 }
 
+
+int value = 100;
 void loop() {
   int sonar_cm = sonar.noiseFilteredReading();
   int ir_cm = ir.noiseFilteredReading();
@@ -25,13 +27,13 @@ void loop() {
   Serial.print("Sonar Value: ");
   Serial.println(sonar_cm);
 
-  if(ir_cm < 15) {
+  if(ir_cm < 13) {
     robot.backward();
   }
 
-  if(sonar_cm < 15) {
+  if(sonar_cm < 25) {
     robot.forward();
   }
-
-  delay(10);
+  
+  delay(50);
 }

@@ -10,11 +10,11 @@ private:
 public:
   IR(int readingPin) {
     pin = readingPin;
-    windowSize = 10;
+    windowSize = 100;
     readings = SlidingWindow(windowSize);
   }
 
-  int read() {
+  int readValue() {
     int val = analogRead(pin);
 
     // At some point we googled for this specific expression,
@@ -26,7 +26,7 @@ public:
   }
 
   int noiseFilteredReading() {
-    read();
+    readValue();
     return readings.average();
   }
 };
