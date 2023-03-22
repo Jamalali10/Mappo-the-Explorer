@@ -9,27 +9,43 @@ RobotController robot = RobotController(defaultRobotSpeed, Adafruit_MotorShield(
 // WindowSize for noise filtering. 0 if not utilizing
 // I made this 0 because the window class is broke rn gotta debug
 int windowSize = 0;
-int irPins[4] = {A0, A1, A2, A3};
-IR sensor[4];
+IR sensor[4] = {
+  IR(A0, windowSize),
+  IR(A1, windowSize),
+  IR(A2, windowSize),
+  IR(A3, windowSize)
+};
 
 void setup() {
   Serial.begin(9600);
   robot.begin();
-  for(int i = 0; i < 4; i++) {
-    sensor[i] = IR(irPins[i], windowSize);
-  }
 }
 
 void loop() {
-  robot.stop();
+  robot.forward();
+  int ir_cm = 0;
 
-  for(int i = 0; i < 4; i++) {
-    Serial.print("IR Values: ");
-    Serial.print(sensor[i].readValue());
-    Serial.print(" ");
-  }
+  Serial.print("IR Values: ");
 
+  ir_cm = sensor[3].readValue();
+
+  Serial.print(ir_cm);
+  
+//  for(int i = 0; i < 4; i++) {
+//    ir_cm = sensor[i].readValue();
+//    average += ir_cm;
+//    Serial.print(ir_cm);
+//    Serial.print(" ");
+//  }
   Serial.println(" ");
 
-  delay(200);
+  if (ir_cm < 15) {
+    robot.backward();
+    delay(1500);
+  }
+  else {
+    robot.forward();
+  }
+
+  delay(100);
 }
