@@ -33,5 +33,5 @@ void loop() {
     robot.forward();
   }
 
-  delay(10);
+  delay(50);
 }

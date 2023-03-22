@@ -1,14 +1,14 @@
 #pragma once
 
 // Using a pointer for the array head cuz smart
-// https://stackoverflow.com/questions/13431567/how-to-make-an-array-with-a-dynamic-size-general-usage-of-dynamic-arrays-maybe
+//https://stackoverflow.com/questions/13431567/how-to-make-an-array-with-a-dynamic-size-general-usage-of-dynamic-arrays-maybe
 
 class SlidingWindow {
 private:
   int *window;
   int currentSize;
   int arraySize;
-
+ 
 public:
   SlidingWindow() {
     arraySize = 0;
