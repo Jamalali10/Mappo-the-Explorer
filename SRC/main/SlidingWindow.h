@@ -62,8 +62,7 @@ public:
 
     return windowCopy[(size / 2)+1];
   }
-<<<<<<< HEAD
-=======
+
 
   // Stolen from
   // https://forum.arduino.cc/t/some-sorting-algorithms-compared/271044/3
@@ -108,5 +107,4 @@ public:
     str = String(window[0]);
     return str;
   }
->>>>>>> bff9c86dd3b43ec811e5017ee99872160b9c77b5
 };

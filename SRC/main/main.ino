@@ -30,10 +30,6 @@ void loop() {
   }
 
   Serial.println(" ");
-
-<<<<<<< HEAD
-  delay(50);
-=======
   delay(200);
->>>>>>> bff9c86dd3b43ec811e5017ee99872160b9c77b5
+
 }
