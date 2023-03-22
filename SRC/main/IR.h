@@ -8,9 +8,13 @@ private:
   SlidingWindow readings;
 
 public:
-  IR(int readingPin) {
+  IR() {
+    IR(A0, 0);
+  }
+
+  IR(int readingPin, int sizeOfWindow) {
     pin = readingPin;
-    windowSize = 100;
+    windowSize = sizeOfWindow;
     readings = SlidingWindow(windowSize);
   }
 
@@ -20,8 +24,11 @@ public:
     // At some point we googled for this specific expression,
     // but idk where it is. Could probs find it again if needed.
     int ir_cm = exp(8.5841-log(val));
-    readings.push(ir_cm);
-
+    
+    if (windowSize != 0) {
+      readings.push(ir_cm);
+    }
+    
     return ir_cm;
   }
 
