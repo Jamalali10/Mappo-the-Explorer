@@ -24,7 +24,7 @@ private:
   }
 
 public:
-  Sonar(int pingPin) {
+   Sonar(int pingPin) {
     pin = pingPin;
     windowSize = 100;
     readings = SlidingWindow(windowSize);

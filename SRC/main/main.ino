@@ -39,6 +39,7 @@ void loop() {
 //  }
   Serial.println(" ");
 
+<<<<<<< HEAD
   if (ir_cm < 15) {
     robot.backward();
     delay(1500);

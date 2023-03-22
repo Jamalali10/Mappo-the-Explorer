@@ -2,7 +2,7 @@
 #pragma once
 
 // Using a pointer for the array head cuz smart
-// https://stackoverflow.com/questions/13431567/how-to-make-an-array-with-a-dynamic-size-general-usage-of-dynamic-arrays-maybe
+//https://stackoverflow.com/questions/13431567/how-to-make-an-array-with-a-dynamic-size-general-usage-of-dynamic-arrays-maybe
 
 class SlidingWindow {
 private:
@@ -10,7 +10,7 @@ private:
   int *windowCopy;
   int size;
   int arraySize;
-
+ 
 public:
   SlidingWindow() {
     arraySize = 0;
@@ -62,6 +62,8 @@ public:
 
     return windowCopy[(size / 2)+1];
   }
+<<<<<<< HEAD
+=======
 
   // Stolen from
   // https://forum.arduino.cc/t/some-sorting-algorithms-compared/271044/3
@@ -106,4 +108,5 @@ public:
     str = String(window[0]);
     return str;
   }
+>>>>>>> bff9c86dd3b43ec811e5017ee99872160b9c77b5
 };
