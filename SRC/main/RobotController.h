@@ -12,8 +12,17 @@ private:
   Adafruit_DCMotor *backwardMotor2;
 
   int defaultSpeed;
+  float current_power_left_side;
+  float current_power_right_side;
 
-  void setSpeed(int speed) {
+  // Converts a percent (0-1) to 0-255
+  int percentToSpeed(float percent) {
+    return percent*255;
+  }
+
+  void setSpeed(float percent) {
+    int speed = percentToSpeed(percent);
+
     forwardMotor1->setSpeed(speed);
     forwardMotor2->setSpeed(speed);
     backwardMotor1->setSpeed(speed);
@@ -21,20 +30,22 @@ private:
   }
 
 public:
-   RobotController(int defaultSpeed, Adafruit_MotorShield motorShield) {
+   RobotController(float defaultSpeedPercent, Adafruit_MotorShield motorShield) {
     AFMS = motorShield;
     forwardMotor1 = AFMS.getMotor(1);
     forwardMotor2 = AFMS.getMotor(2);
     backwardMotor1 = AFMS.getMotor(3);
     backwardMotor2 = AFMS.getMotor(4);
-    this->defaultSpeed = defaultSpeed;
+    defaultSpeed = percentToSpeed(speedDefault);
+    current_power_left_side = defaultSpeed;
+    current_power_right_side = defaultSpeed;
   }
 
   void begin() {
     AFMS.begin();
   }
 
-  void forward(int speed){
+  void forward(float speed){
     setSpeed(speed);
 
     forwardMotor1->run(FORWARD);
@@ -47,7 +58,7 @@ public:
     forward(defaultSpeed);
   }
 
-  void backward(int speed) {
+  void backward(float speed) {
     setSpeed(speed);
 
     forwardMotor1->run(BACKWARD);
@@ -60,7 +71,7 @@ public:
     backward(defaultSpeed);
   }
 
-  void right(int speed) {
+  void right(float speed) {
     setSpeed(speed);
 
     forwardMotor1->run(FORWARD);
@@ -73,7 +84,16 @@ public:
     right(defaultSpeed);
   }
 
-  void left(int speed) {
+  void rightSideForward(float percent) {
+    int speed = percentToSpeed(percent);
+
+    forwardMotor2->setSpeed(speed);
+    backwardMotor2->setSpeed(speed);
+    forwardMotor2->run(FORWARD);
+    backwardMotor2->run(FORWARD);
+  }
+
+  void left(float speed) {
     setSpeed(speed);
 
     forwardMotor1->run(BACKWARD);
@@ -86,10 +106,27 @@ public:
     left(defaultSpeed);
   }
 
+  void leftSideForward(float percent) {
+    int speed = percentToSpeed(percent);
+
+    forwardMotor1->setSpeed(speed);
+    backwardMotor1->setSpeed(speed);
+    forwardMotor1->run(FORWARD);
+    backwardMotor1->run(FORWARD);
+  }
+
   void stop() {
     forwardMotor1->run(RELEASE);
     forwardMotor2->run(RELEASE);
     backwardMotor1->run(RELEASE);
     backwardMotor2->run(RELEASE);
+  }
+
+  float currentSpeedPercentLeft() {
+    return current_power_left_side / 255;
+  }
+
+  float currentSpeedPercentRight() {
+    return current_power_right_side / 255;
   }
 };

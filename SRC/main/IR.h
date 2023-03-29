@@ -5,6 +5,7 @@ class IR {
 private:
   int pin;
   int windowSize;
+  int minimumReading = 0;
   SlidingWindow readings;
 
 public:
@@ -32,7 +33,7 @@ public:
 
       // If it's less than or equal to 0 cm it is probably a bad value
       // If it's greater than we continue with the program
-      if (ir_cm > 0) {
+      if (ir_cm > minimumReading) {
         validValue = true;
       }
     }
