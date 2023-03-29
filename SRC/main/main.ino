@@ -37,7 +37,7 @@ void setup() {
 void loop() {
   //ap_lite();
   test_function();
-  delay(5000);
+  delay(1000);
 }
 
 void ap_lite() {
@@ -113,10 +113,8 @@ void ap_lite() {
   theta_new = atan2(vy, vx); // robot moves in first or second quadrant
 
   if ((-PI / 2.0 <= theta_new) && (theta_new <= PI/2.0)) {
-    // The psuedocode had power_left and power_right reversed here. Our robot ran into the wall
-    // so I reversed it at this point
-    power_right = (v - v * alpha * w); // power to right motor
-    power_left = (v + v * alpha * w); // power to left motor
+    power_right = (v + v * alpha * w); // power to right motor
+    power_left = (v - v * alpha * w); // power to left motor
 
     // proportionally cap the motor power
     // convert percent speed to integer for comparison
@@ -152,21 +150,13 @@ float turn_function(float angle_rad) {
 
 void test_function() {
   robot.stop();
-  robot.forward();
-  delay(1000);
-
-  robot.stop()
-  robot.backward();
-  delay(1000);
-
-  robot.stop();
   robot.right();
-  delay(1000);
+  delay(5000);
 
   robot.stop();
   robot.left();
-  delay(1000);
+  delay(5000);
 
   robot.stop();
-  delay(1000);
+  delay(5000);
 }

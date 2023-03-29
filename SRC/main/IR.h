@@ -12,7 +12,7 @@ private:
 
 public:
   IR() {
-    IR(A0, 0);
+    IR(A0);
   }
 
   IR(int readingPin) {
