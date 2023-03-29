@@ -120,7 +120,7 @@ void ap_lite() {
 
     // proportionally cap the motor power
     // convert percent speed to integer for comparison
-    if (power_right > MAX_SPEED || robot.currentSpeedPercentLeft()*100 > MAX_SPEED) {
+    if (power_right > MAX_SPEED || robot.currentSpeedLeft()*100 > MAX_SPEED) {
       if (power_right >= power_left) {
         power_left = MAX_SPEED * power_left / power_right;
         power_right = MAX_SPEED;
@@ -137,8 +137,8 @@ void ap_lite() {
   // WERE INTEGERS NOT FLOATS. There may be some conversion missing, even though
   // you convert the values inside the robot class.
   // Convert int speed to percentage
-  robot.leftSideForward((float)power_left/100);
-  robot.rightSideForward((float)power_right/100);  
+  robot.left((float)power_left/100);
+  robot.right((float)power_right/100);  
 }
 
 
