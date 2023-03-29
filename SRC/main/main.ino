@@ -47,6 +47,10 @@ void loop() {
   Serial.print(ir_cm);
   
   Serial.println(" ");
+<<<<<<< HEAD
+  delay(200);
+
+=======
 
   if (ir_cm < 15) {
     robot.backward();
@@ -57,6 +61,10 @@ void loop() {
   }
 
   delay(100);
+<<<<<<< HEAD
+>>>>>>> b5179545b721773fb9f4952673402f045d43337f
+=======
+>>>>>>> b5179545b721773fb9f4952673402f045d43337f
 }
 
 void ap_lite() {
