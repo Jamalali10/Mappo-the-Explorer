@@ -4,6 +4,8 @@
 // Using a pointer for the array head cuz smart
 //https://stackoverflow.com/questions/13431567/how-to-make-an-array-with-a-dynamic-size-general-usage-of-dynamic-arrays-maybe
 
+//TODO: THIS IS BROKE IDK WHY WE JUST GET BAD VALUES AHHHH
+
 class SlidingWindow {
 private:
   int *window;

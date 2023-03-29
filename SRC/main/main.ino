@@ -4,25 +4,23 @@
 #include <math.h>
 
 int defaultRobotSpeed = 70;
+
+// Default velocity set, can change I guess
 float currentVelocity = 0.7;
 
 RobotController robot = RobotController(defaultRobotSpeed, Adafruit_MotorShield());
 
-// WindowSize for noise filtering. 0 if not utilizing
-// I made this 0 because the window class is broke rn gotta debug
-int windowSize = 0;
-
 // Sensors must be placed on the robot from left to right (when facing with the direction of travel.
-// That is, you're behind the robot) for the ap_lite() algorithm to work. Inner sensors face at 15 degrees,
-// outer sensors look at 45 degrees.
+// That is, you're behind the robot) for the ap_lite() algorithm to work.
 IR sensor[4] = {
-  IR(A0, windowSize),
-  IR(A1, windowSize),
-  IR(A2, windowSize),
-  IR(A3, windowSize)
+  IR(A0),
+  IR(A1),
+  IR(A2),
+  IR(A3)
 };
 
 // The sensor angle in radians. This angle is in respect to the velocity vector drawn when the robot is moving forward.
+// 45 degrees, 15 degrees, 15 degrees, 45 degrees
 // Index here maps to the appropriate sensor index.
 float sensor_angle[4] = {
   0.7854,
@@ -120,7 +118,7 @@ void ap_lite() {
 
     // proportionally cap the motor power
     // convert percent speed to integer for comparison
-    if (power_right > MAX_SPEED || robot.currentSpeedLeft()*100 > MAX_SPEED) {
+    if (power_right > MAX_SPEED || robot.speedLeft()*100 > MAX_SPEED) {
       if (power_right >= power_left) {
         power_left = MAX_SPEED * power_left / power_right;
         power_right = MAX_SPEED;
@@ -132,22 +130,18 @@ void ap_lite() {
     }
   }
 
-
-  // IF SOMETHING ISN"T WORKING REMEMBER THE PSUDOCODE SAID THAT POWER_LEFT AND RIGHT
-  // WERE INTEGERS NOT FLOATS. There may be some conversion missing, even though
-  // you convert the values inside the robot class.
   // Convert int speed to percentage
   robot.left((float)power_left/100);
   robot.right((float)power_right/100);  
 }
 
-
-float turn_function(float angle_rad){
-// robot  moving to the second quadrant
+// Return the angle to turn in radians
+float turn_function(float angle_rad) {
+  // robot  moving to the second quadrant
   if ((PI / 2.0 < angle_rad) && (angle_rad <= PI)){
     angle_rad = PI - angle_rad;
   }
-// robot moving to the third quadrant  
+  // robot moving to the third quadrant  
   else if ((-PI < angle_rad) && (angle_rad < -PI / 2.0)){
     angle_rad = -PI - angle_rad; //only used in backward move
   }

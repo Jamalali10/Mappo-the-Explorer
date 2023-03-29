@@ -16,7 +16,6 @@ private:
   // Keeping track of current speed as percent
   float leftSideSpeed;
   float rightSideSpeed;
-  float speed;
 
   // Converts a percent (0-1) to 0-255
   int percentToSpeed(float percent) {
@@ -24,7 +23,6 @@ private:
   }
 
   void setSpeed(float percent) {
-    this->speed = percent;
     int speed = percentToSpeed(percent);
 
     frontRightMotor->setSpeed(speed);
@@ -104,14 +102,13 @@ public:
   }
 
   void stop() {
+    leftSideSpeed = 0.0;
+    rightSideSpeed = 0.0;
+
     frontRightMotor->run(RELEASE);
     frontLeftMotor->run(RELEASE);
     backLeftMotor->run(RELEASE);
     backRightMotor->run(RELEASE);
-  }
-
-  float speed() {
-    return 
   }
 
   // Returns the current speed on the left side as a percentage
