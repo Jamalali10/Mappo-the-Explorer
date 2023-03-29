@@ -35,7 +35,9 @@ void setup() {
 }
 
 void loop() {
-  ap_lite();
+  //ap_lite();
+  test_function();
+  delay(5000);
 }
 
 void ap_lite() {
@@ -146,4 +148,25 @@ float turn_function(float angle_rad) {
     angle_rad = -PI - angle_rad; //only used in backward move
   }
   return angle_rad;
+}
+
+void test_function() {
+  robot.stop();
+  robot.forward();
+  delay(1000);
+
+  robot.stop()
+  robot.backward();
+  delay(1000);
+
+  robot.stop();
+  robot.right();
+  delay(1000);
+
+  robot.stop();
+  robot.left();
+  delay(1000);
+
+  robot.stop();
+  delay(1000);
 }
