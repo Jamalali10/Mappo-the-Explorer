@@ -2,11 +2,7 @@
 #include "RobotController.h"
 #include "IR.h"
 #include <math.h>
-<<<<<<< HEAD
 
-=======
- 
->>>>>>> 7e97139146bc5e2742143774f902886e5d9c02ff
 int defaultRobotSpeed = 70;
 float currentVelocity = 0.7;
 
@@ -54,11 +50,6 @@ void loop() {
 
   delay(200);
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 7e97139146bc5e2742143774f902886e5d9c02ff
   if (ir_cm < 15) {
     robot.backward();
     delay(1500);
@@ -71,31 +62,6 @@ void loop() {
 
 }
 
-<<<<<<< HEAD
-double turnFunction(double angle_rad){
-// robot  moving to the second quadrant
-  if ((PI / 2.0 < angle_rad) && (angle_rad <= PI)){
-    angle_rad = PI - angle_rad;
-  }
-// robot moving to the third quadrant  
-  else if ((-PI < angle_rad) && (angle_rad < -PI / 2.0)){
-    angle_rad = -PI - angle_rad; //only used in backward move
-  }
-  return angle_rad;
-}
-double convertSensorReadingToInches (rawSensorReading){
-  double temp ;
-}
-
-
-
-
-
-
-
-
-
-=======
 void ap_lite() {
   int reading_in; // the raw sensor reading AFTER being converted to inches
   int r; // sensor reading, with respect to range?
@@ -189,4 +155,15 @@ void ap_lite() {
   robot.leftSideForward(power_left);
   robot.rightSideForward(power_right);  
 }
->>>>>>> 7e97139146bc5e2742143774f902886e5d9c02ff
+
+double turnFunction(double angle_rad){
+// robot  moving to the second quadrant
+  if ((PI / 2.0 < angle_rad) && (angle_rad <= PI)){
+    angle_rad = PI - angle_rad;
+  }
+// robot moving to the third quadrant  
+  else if ((-PI < angle_rad) && (angle_rad < -PI / 2.0)){
+    angle_rad = -PI - angle_rad; //only used in backward move
+  }
+  return angle_rad;
+}
