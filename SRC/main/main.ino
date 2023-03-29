@@ -1,7 +1,8 @@
 #include <Adafruit_MotorShield.h>
 #include "RobotController.h"
 #include "IR.h"
- 
+#include <math.h>
+
 int defaultRobotSpeed = 70;
 
 RobotController robot = RobotController(defaultRobotSpeed, Adafruit_MotorShield());
@@ -38,12 +39,11 @@ void loop() {
 //    Serial.print(" ");
 //  }
   Serial.println(" ");
-<<<<<<< HEAD
+
   delay(200);
 
-=======
 
-<<<<<<< HEAD
+
   if (ir_cm < 15) {
     robot.backward();
     delay(1500);
@@ -53,8 +53,29 @@ void loop() {
   }
 
   delay(100);
-<<<<<<< HEAD
->>>>>>> b5179545b721773fb9f4952673402f045d43337f
-=======
->>>>>>> b5179545b721773fb9f4952673402f045d43337f
+
 }
+
+double turnFunction(double angle_rad){
+// robot  moving to the second quadrant
+  if ((PI / 2.0 < angle_rad) && (angle_rad <= PI)){
+    angle_rad = PI - angle_rad;
+  }
+// robot moving to the third quadrant  
+  else if ((-PI < angle_rad) && (angle_rad < -PI / 2.0)){
+    angle_rad = -PI - angle_rad; //only used in backward move
+  }
+  return angle_rad;
+}
+double convertSensorReadingToInches (rawSensorReading){
+  double temp ;
+}
+
+
+
+
+
+
+
+
+
