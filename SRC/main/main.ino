@@ -37,29 +37,7 @@ void setup() {
 }
 
 void loop() {
-  robot.forward();
-  int ir_cm = 0;
-
-  Serial.print("IR Values: ");
-
-  ir_cm = sensor[3].readValue();
-
-  Serial.print(ir_cm);
-  
-  Serial.println(" ");
-
-  delay(200);
-
-  if (ir_cm < 15) {
-    robot.backward();
-    delay(1500);
-  }
-  else {
-    robot.forward();
-  }
-
-  delay(100);
-
+  ap_lite();
 }
 
 void ap_lite() {
@@ -75,19 +53,21 @@ void ap_lite() {
   // Power and speed are defined as a percentage of the maximum speed (0-1 inclusive)
   float power_left = 0.0;
   float power_right = 0.0;
-  float MAX_SPEED = 0.7; // maximum power supply to motors
-  int RANGE = 30; // reactive distance to an obstacle
   float STEP = 1.0; // step size of the robot
   float mass = 1.0; // mass of the robot (makes math easier)
-  float kmid = 5.0; // Hooke's law constant for two middle sensors
-  float kside = 4.0; //Hooke's law constant for two outside sensors (45 degree angle in our implementation)
   float FR = 0.5; // Friction
-  float alpha = 1.0; // decides the amount to turn
   float Fx = 100.0; // attractive goal force in x direction
   float Fy = 0.0; // robot does not move side-ways hence it's 0
   float v = currentVelocity; // current velocity, initial value is 70%
   float vx = FR * v; // velocity drops with friction
   float vy = 0; // no side-ways velocity
+
+  // Changable settings
+  float alpha = 0.2; // decides the amount to turn
+  int MAX_SPEED = 20; // maximum power supply to motors 0-100 (converted later)
+  int RANGE = 30; // reactive distance to an obstacle
+  float kmid = 5.0; // Hooke's law constant for two middle sensors
+  float kside = 4.0; //Hooke's law constant for two outside sensors (45 degree angle in our implementation)
 
   // for (all current sensors)
   for (int i = 0; i < 4; i++) {
@@ -133,12 +113,14 @@ void ap_lite() {
   theta_new = atan2(vy, vx); // robot moves in first or second quadrant
 
   if ((-PI / 2.0 <= theta_new) && (theta_new <= PI/2.0)) {
-    // Implicit cast to int. It's in the psuedocode
-    power_right = (v + v * alpha * w); // power to right motor
-    power_left = (v - v * alpha * w); // power to left motor
+    // The psuedocode had power_left and power_right reversed here. Our robot ran into the wall
+    // so I reversed it at this point
+    power_right = (v - v * alpha * w); // power to right motor
+    power_left = (v + v * alpha * w); // power to left motor
 
     // proportionally cap the motor power
-    if (power_right > MAX_SPEED || robot.currentSpeedPercentLeft() > MAX_SPEED) {
+    // convert percent speed to integer for comparison
+    if (power_right > MAX_SPEED || robot.currentSpeedPercentLeft()*100 > MAX_SPEED) {
       if (power_right >= power_left) {
         power_left = MAX_SPEED * power_left / power_right;
         power_right = MAX_SPEED;
@@ -154,12 +136,13 @@ void ap_lite() {
   // IF SOMETHING ISN"T WORKING REMEMBER THE PSUDOCODE SAID THAT POWER_LEFT AND RIGHT
   // WERE INTEGERS NOT FLOATS. There may be some conversion missing, even though
   // you convert the values inside the robot class.
-  robot.leftSideForward(power_left);
-  robot.rightSideForward(power_right);  
+  // Convert int speed to percentage
+  robot.leftSideForward((float)power_left/100);
+  robot.rightSideForward((float)power_right/100);  
 }
 
 
-double turn_function(double angle_rad){
+float turn_function(float angle_rad){
 // robot  moving to the second quadrant
   if ((PI / 2.0 < angle_rad) && (angle_rad <= PI)){
     angle_rad = PI - angle_rad;
