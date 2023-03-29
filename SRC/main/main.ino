@@ -35,9 +35,7 @@ void setup() {
 }
 
 void loop() {
-  //ap_lite();
-  test_function();
-  delay(1000);
+  ap_lite();
 }
 
 void ap_lite() {
@@ -63,9 +61,9 @@ void ap_lite() {
   float vy = 0; // no side-ways velocity
 
   // Changable settings
-  float alpha = 0.2; // decides the amount to turn
-  int MAX_SPEED = 20; // maximum power supply to motors 0-100 (converted later)
-  int RANGE = 30; // reactive distance to an obstacle
+  float alpha = 1; // decides the amount to turn
+  int MAX_SPEED = 50; // maximum power supply to motors 0-100 (converted later)
+  int RANGE = 20; // reactive distance to an obstacle
   float kmid = 5.0; // Hooke's law constant for two middle sensors
   float kside = 4.0; //Hooke's law constant for two outside sensors (45 degree angle in our implementation)
 
@@ -113,8 +111,10 @@ void ap_lite() {
   theta_new = atan2(vy, vx); // robot moves in first or second quadrant
 
   if ((-PI / 2.0 <= theta_new) && (theta_new <= PI/2.0)) {
-    power_right = (v + v * alpha * w); // power to right motor
-    power_left = (v - v * alpha * w); // power to left motor
+    // The psuedocode had power_left and power_right reversed here. Our robot ran into the wall
+    // so I reversed it at this point
+    power_right = (int)(v - v * alpha * w); // power to right motor
+    power_left = (int)(v + v * alpha * w); // power to left motor
 
     // proportionally cap the motor power
     // convert percent speed to integer for comparison
