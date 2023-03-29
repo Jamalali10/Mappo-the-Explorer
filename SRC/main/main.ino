@@ -66,8 +66,11 @@ void ap_lite() {
   int reading_in; // the raw sensor reading AFTER being converted to inches
   int r; // sensor reading, with respect to range?
   float F; // Force 
+  float delta; // the change in velocity
   float delta_vx, delta_vy; // change in velocity in each direction
   float w; // Angle of the robot to turn
+  float theta; // The sensor angle
+  float theta_new;
 
   // Power and speed are defined as a percentage of the maximum speed (0-1 inclusive)
   float power_left = 0.0;
@@ -94,7 +97,7 @@ void ap_lite() {
     reading_in = sensor[i].readValue();
     theta = sensor_angle[i];
 
-    r = RANGE - reading;
+    r = RANGE - reading_in;
     if (r < 0) {
       // No obstacles seen
       r = 0;
@@ -112,7 +115,6 @@ void ap_lite() {
 
     Fx = Fx - (F * cos(theta)); // Repulsive x component
     Fy = Fy - (F * sin(theta)); // Repulsive y component    
-    }
   }
 
   delta_vx = STEP * Fx / mass; // change in velocity in x direction
@@ -132,8 +134,8 @@ void ap_lite() {
 
   if ((-PI / 2.0 <= theta_new) && (theta_new <= PI/2.0)) {
     // Implicit cast to int. It's in the psuedocode
-    power_right = (v + v * alpha * w) // power to right motor
-    power_left = (v - v) * alpha * w) // power to left motor
+    power_right = (v + v * alpha * w); // power to right motor
+    power_left = (v - v * alpha * w); // power to left motor
 
     // proportionally cap the motor power
     if (power_right > MAX_SPEED || robot.currentSpeedPercentLeft() > MAX_SPEED) {
@@ -156,7 +158,8 @@ void ap_lite() {
   robot.rightSideForward(power_right);  
 }
 
-double turnFunction(double angle_rad){
+
+double turn_function(double angle_rad){
 // robot  moving to the second quadrant
   if ((PI / 2.0 < angle_rad) && (angle_rad <= PI)){
     angle_rad = PI - angle_rad;

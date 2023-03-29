@@ -36,7 +36,7 @@ public:
     forwardMotor2 = AFMS.getMotor(2);
     backwardMotor1 = AFMS.getMotor(3);
     backwardMotor2 = AFMS.getMotor(4);
-    defaultSpeed = percentToSpeed(speedDefault);
+    defaultSpeed = percentToSpeed(defaultSpeedPercent);
     current_power_left_side = defaultSpeed;
     current_power_right_side = defaultSpeed;
   }
