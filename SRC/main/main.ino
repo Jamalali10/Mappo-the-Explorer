@@ -159,12 +159,6 @@ float turn_function(float angle) {
   // }
   return angle_rad;
 }
-<<<<<<< HEAD
-float convertSensorReadingToInches(IR){
-  float temp;
-  temp = (6787.0/(IR- 3.0)) -4.0;
-  return (temp/2.54);
-=======
 
 void test_function() {
   robot.stop();
@@ -177,5 +171,4 @@ void test_function() {
 
   robot.stop();
   delay(5000);
->>>>>>> 3aee223b50747bd081339d329f1d44204aeb7c8b
 }
