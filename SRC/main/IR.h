@@ -8,7 +8,7 @@ private:
   SlidingWindow readings;
 
   // This value is arbitrarily set to be honest
-  int minimumReading = 20;
+  int minimumReading = 15;
 
 public:
   IR() {
