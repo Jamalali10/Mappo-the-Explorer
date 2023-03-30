@@ -167,3 +167,8 @@ double turnFunction(double angle_rad){
   }
   return angle_rad;
 }
+float convertSensorReadingToInches(IR){
+  float temp;
+  temp = (6787.0/(IR- 3.0)) -4.0;
+  return (temp/2.54);
+}
