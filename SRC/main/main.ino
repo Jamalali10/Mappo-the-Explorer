@@ -115,8 +115,6 @@ void ap_lite() {
   theta_new = atan2(vy, vx); // robot moves in first or second quadrant
 
   if ((-PI / 2.0 <= theta_new) && (theta_new <= PI/2.0)) {
-    // The psuedocode had power_left and power_right reversed here. Our robot ran into the wall
-    // so I reversed it at this point
     power_right = (int)(v + v * alpha * w); // power to right motor
     power_left = (int)(v - v * alpha * w); // power to left motor
 
