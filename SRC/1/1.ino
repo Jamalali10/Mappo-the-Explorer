@@ -46,6 +46,9 @@ void setup() {
 }*/
 void loop () { 
 int val= analogRead (A0);
-Serial.println(exp(8.5841-log(val)));
-delay (99);0
+//Serial.println(exp(8.5841-log(val)));
+//delay (990);
+Serial.println(analogRead(A0));
+delay(1000);
+
 }

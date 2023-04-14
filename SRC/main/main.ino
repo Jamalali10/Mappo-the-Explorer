@@ -16,7 +16,13 @@ IR sensor[4] = {
   IR(A0),
   IR(A1),
   IR(A2),
-  IR(A3)
+  IR(A3),
+  //IR(A4),
+  //IR(A8),
+  //IR(A9),
+  //IR(A10),
+  //IR(A11),
+  //IR(A12)
 };
 
 // The sensor angle in radians. This angle is in respect to the velocity vector drawn when the robot is moving forward.
@@ -36,9 +42,9 @@ void setup() {
 
 void loop() {
   ap_lite();
-  // robot.stop();
-  // Serial.println(sensor[3].readValue());
-  // delay(1000);
+  robot.stop();
+  Serial.println(sensor[3].readValue());
+  delay(100);
 }
 
 void ap_lite() {
@@ -159,15 +165,9 @@ float turn_function(float angle) {
   // }
   return angle_rad;
 }
-<<<<<<< HEAD
 
-float convertSensorReadingToInches(IR){
-  float temp;
-  temp = (6787.0/(IR- 3.0)) -4.0;
-  return (temp/2.54);
 
-=======
->>>>>>> 8c25d32159fe40cbeff2dc28cd8c56278308f062
+
 
 void test_function() {
   robot.stop();
@@ -180,8 +180,5 @@ void test_function() {
 
   robot.stop();
   delay(5000);
-<<<<<<< HEAD
 
-=======
->>>>>>> 8c25d32159fe40cbeff2dc28cd8c56278308f062
 }
