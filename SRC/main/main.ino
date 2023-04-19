@@ -37,7 +37,6 @@ void setup() {
 }
 
 void loop() {
-  
   //test_function();
   //ap_lite();
   robot.forward();
@@ -99,7 +98,7 @@ void ap_lite() {
       F = kside * r;
     }
 
-    Fx = Fx - (F * cos(theta)); // Repulsive x component
+    Fx = Fx - (F * cos(theta)); // Repulsive x component 
     Fy = Fy - (F * sin(theta)); // Repulsive y component    
   }
 
@@ -175,4 +174,5 @@ void test_function() {
 
   robot.stop();
   delay(5000);
+
 }
