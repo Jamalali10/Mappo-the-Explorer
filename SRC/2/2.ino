@@ -1,4 +1,4 @@
-#include <SharpIR.h>
+//#include <SharpIR.h>
 
 #define IR A0 // define signal pin
 #define model 20150 /

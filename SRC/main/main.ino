@@ -12,6 +12,7 @@ RobotController robot = RobotController(defaultRobotSpeed, Adafruit_MotorShield(
 
 // Sensors must be placed on the robot from left to right (when facing with the direction of travel.
 // That is, you're behind the robot) for the ap_lite() algorithm to work.
+// A6 is skipped because of the position of the motorboard over the arduino
 IR sensor[4] = {
   IR(A0),
   IR(A1),
@@ -20,6 +21,7 @@ IR sensor[4] = {
 };
 
 // The sensor angle in radians. This angle is in respect to the velocity vector drawn when the robot is moving forward.
+// Sensor offset degrees from left to right
 // 45 degrees, 15 degrees, -15 degrees, -45 degrees
 // Index here maps to the appropriate sensor index.
 float sensor_angle[4] = {
@@ -35,10 +37,12 @@ void setup() {
 }
 
 void loop() {
-  ap_lite();
-  // robot.stop();
-  // Serial.println(sensor[3].readValue());
-  // delay(1000);
+  
+  //test_function();
+  //ap_lite();
+  robot.forward();
+  Serial.println(sensor[1].readValue());
+  delay(1000);
 }
 
 void ap_lite() {
