@@ -44,6 +44,65 @@ void loop() {
   delay(1000);
 }
 
+void plot_points(float sensor_angle, float distance) {
+  float theta = TURN_ANGLE + sensor_angle;
+  float r = reading/CELL_SIZE;
+  float x1 = r * cos(theta);
+  float y1 = r * sin(theta);
+  // We want to go from where we detected the object, out beyond
+  // the table. 
+  float x2 = LOCAL_TABLE_SIZE * cos(theta);
+  float y2 = LOCAL_TABLE_SIZE * sin(theta);
+  float dx = abs(x2 - x1);
+  float dy = abs(y2 - y1);
+  bool positive_slope = true;
+
+  if (dx > dy) {
+    positive_slope = false;
+  }
+
+  // pk is initial decision making parameter
+	// Note:x1&y1,x2&y2, dx&dy values are interchanged
+	// and passed in plotPixel function so
+	// it can handle both cases when m>1 & m<1
+	int pk = 2 * dy - dx;
+
+  // Makes (0,0) in the cartesian plane map to the center of our table
+  int cartesian_offset = LOCAL_TABLE_SIZE/2;
+	for (int i = 0; i <= dx; i++) {
+		// Increase the hitpoints at the given location in the local map
+    localmap[x1 + cartesian_offset][y1 + cartesian_offset] += 1;
+		
+    // checking either to decrement or increment the
+		// value if we have to plot from (0,100) to (100,0)
+		x1 < x2 ? x1++ : x1--;
+		if (pk < 0) {
+			// decision value will decide to plot
+			// either x1 or y1 in x's position
+			if (decide == 0) {
+				// putpixel(x1, y1, RED);
+				pk = pk + 2 * dy;
+			}
+			else {
+				//(y1,x1) is passed in xt
+				// putpixel(y1, x1, YELLOW);
+				pk = pk + 2 * dy;
+			}
+		}
+		else {
+			y1 < y2 ? y1++ : y1--;
+			if (decide == 0) {
+
+				// putpixel(x1, y1, RED);
+			}
+			else {
+				// putpixel(y1, x1, YELLOW);
+			}
+			pk = pk + 2 * dy - 2 * dx;
+		}
+	}
+}
+
 void ap_lite() {
   int reading_in; // the raw sensor reading AFTER being converted to inches
   int r; // sensor reading, with respect to range?
