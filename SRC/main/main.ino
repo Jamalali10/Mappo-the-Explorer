@@ -205,10 +205,6 @@ void ap_lite() {
   }
 
   // Convert int speed to percentage
-  Serial.print("L: ");
-  Serial.println(power_left);
-  Serial.print("R: ");
-  Serial.println(power_right);
   robot.left((float)power_left/100);
   robot.right((float)power_right/100);  
 }
