@@ -1,6 +1,7 @@
 #include <Adafruit_MotorShield.h>
 #include "RobotController.h"
 #include "IR.h"
+#include "PositionMap.h"
 #include <math.h>
 
 float defaultRobotSpeed = 0.70;
@@ -8,7 +9,14 @@ float defaultRobotSpeed = 0.70;
 // Default velocity set, can change I guess
 float currentVelocity = 0.5;
 
+// Current angle of the robot in radians
+float robot_turn_angle = 0.0;
+
 RobotController robot = RobotController(defaultRobotSpeed, Adafruit_MotorShield());
+
+int cell_size_inches = 6;
+int step_size = 1; // How many cells to move per step
+PositionMap pos_map = PositionMap(cell_size_inches, step_size);
 
 // Sensors must be placed on the robot from left to right (when facing with the direction of travel.
 // That is, you're behind the robot) for the ap_lite() algorithm to work.
@@ -37,71 +45,20 @@ void setup() {
 }
 
 void loop() {
-  //test_function();
-  ap_lite();
-  //robot.left();
-  //Serial.println(sensor[3].readValue());
-  delay(1000);
-}
-
-/*void plot_points(float sensor_angle, float distance) {
-  float theta = TURN_ANGLE + sensor_angle;
-  float r = reading/CELL_SIZE;
-  float x1 = r * cos(theta);
-  float y1 = r * sin(theta);
-  // We want to go from where we detected the object, out beyond
-  // the table. 
-  float x2 = LOCAL_TABLE_SIZE * cos(theta);
-  float y2 = LOCAL_TABLE_SIZE * sin(theta);
-  float dx = abs(x2 - x1);
-  float dy = abs(y2 - y1);
-  bool positive_slope = true;
-
-  if (dx > dy) {
-    positive_slope = false;
+  //ap_lite();
+  robot.stop();
+  pos_map.plot_points(PI/6, 0);
+  
+  for (int i = 0; i < pos_map.size(); i++) {
+    for (int j = 0; j < pos_map.size(); j++) {
+      Serial.print(pos_map.get(i, j));
+      Serial.print(" ");
+    }
+    Serial.println();
   }
 
-  // pk is initial decision making parameter
-	// Note:x1&y1,x2&y2, dx&dy values are interchanged
-	// and passed in plotPixel function so
-	// it can handle both cases when m>1 & m<1
-	int pk = 2 * dy - dx;
-
-  // Makes (0,0) in the cartesian plane map to the center of our table
-  int cartesian_offset = LOCAL_TABLE_SIZE/2;
-	for (int i = 0; i <= dx; i++) {
-		// Increase the hitpoints at the given location in the local map
-    localmap[x1 + cartesian_offset][y1 + cartesian_offset] += 1;
-		
-    // checking either to decrement or increment the
-		// value if we have to plot from (0,100) to (100,0)
-		x1 < x2 ? x1++ : x1--;
-		if (pk < 0) {
-			// decision value will decide to plot
-			// either x1 or y1 in x's position
-			if (decide == 0) {
-				// putpixel(x1, y1, RED);
-				pk = pk + 2 * dy;
-			}
-			else {
-				//(y1,x1) is passed in xt
-				// putpixel(y1, x1, YELLOW);
-				pk = pk + 2 * dy;
-			}
-		}
-		else {
-			y1 < y2 ? y1++ : y1--;
-			if (decide == 0) {
-
-				// putpixel(x1, y1, RED);
-			}
-			else {
-				// putpixel(y1, x1, YELLOW);
-			}
-			pk = pk + 2 * dy - 2 * dx;
-		}
-	}
-}*/
+  delay(1000000);
+}
 
 void ap_lite() {
   int reading_in; // the raw sensor reading AFTER being converted to inches
@@ -174,9 +131,9 @@ void ap_lite() {
 
   currentVelocity = v; // reset current velocity
 
-  theta_new = atan2(vy, vx); // robot moves in first or second quadrant
+  robot_turn_angle = atan2(vy, vx); // robot moves in first or second quadrant
 
-  if ((-PI / 2.0 <= theta_new) && (theta_new <= PI/2.0)) {
+  if ((-PI / 2.0 <= robot_turn_angle) && (robot_turn_angle <= PI/2.0)) {
     power_right = (int)(v + v * alpha * w); // power to right motor
     power_left = (int)(v - v * alpha * w); // power to left motor
 
