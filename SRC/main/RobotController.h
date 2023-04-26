@@ -11,7 +11,7 @@ private:
   Adafruit_DCMotor *backLeftMotor;
   Adafruit_DCMotor *backRightMotor;
 
-  int defaultSpeed;
+  float defaultSpeed;
 
   // Keeping track of current speed as percent
   float leftSideSpeed;
@@ -38,7 +38,7 @@ public:
     frontLeftMotor = AFMS.getMotor(2);
     backLeftMotor = AFMS.getMotor(3);
     backRightMotor = AFMS.getMotor(4);
-    defaultSpeed = percentToSpeed(defaultSpeedPercent);
+    defaultSpeed = defaultSpeedPercent;
     leftSideSpeed = defaultSpeed;
     rightSideSpeed = defaultSpeed;
   }
@@ -113,11 +113,11 @@ public:
 
   // Returns the current speed on the left side as a percentage
   float speedLeft() {
-    return leftSideSpeed / 255;
+    return leftSideSpeed;
   }
 
   // Returns the current speed on the right side as a percentage
   float speedRight() {
-    return rightSideSpeed / 255;
+    return rightSideSpeed;
   }
 };
