@@ -58,3 +58,12 @@ public:
     return readings.toString();
   }
 };
+IR sensor[4] = {
+  IR(A0),
+  IR(A1),
+  IR(A2),
+  IR(A3)
+  };
+
+
+
