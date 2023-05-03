@@ -4,6 +4,8 @@
 
 class RobotController {
 private:
+  static const float wheel_circumference = 7.42;
+
   Adafruit_MotorShield AFMS;
   
   Adafruit_DCMotor *frontRightMotor;
@@ -119,5 +121,45 @@ public:
   // Returns the current speed on the right side as a percentage
   float speedRight() {
     return rightSideSpeed;
+  }
+
+  // See the below link for differential drive calculation
+  // https://robotics.stackexchange.com/questions/1653/calculate-position-of-differential-drive-robot
+  // The above code has a case for when we're not going straight. However, because of how quickly we're calling
+  // this function, we're basically always going straight I guess ¯\_(ツ)_/¯
+  // TODO: Optimize by removing floating point arithmetic
+  float mapNewLocation() {
+    // leftDelta and rightDelta = distance that the left and right wheel have moved along the ground
+    
+    // Calculate revolutions per second - see Excel file in docs
+    float leftRps = 0.166 * speedLeft();
+    float rightRps = 0.166 * speedRight();
+
+    // Time traveled since TIMESTAMP was last updated
+    float timeTraveled = (millis() - TIMESTAMP) / 1000.0;
+
+    float leftDelta = CIRCUMFERENCE * leftRps * timeTraveled;
+    float rightDelta = CIRCUMFERENCE * rightRps * timeTraveled;
+
+    new_x = 0
+    new_y = 0
+    new_heading = 0.0
+
+    if (fabs(leftDelta - rightDelta) < 1.0e-6) {
+      new_x = x + leftDelta * cos(heading);
+      new_y = y + rightDelta * sin(heading);
+      new_heading = heading;
+    }
+    else {
+      float R = unitsAxisWidth * (leftDelta + rightDelta) / (2 * (rightDelta - leftDelta))
+      float wd = (rightDelta - leftDelta) / unitsAxisWidth;
+
+      new_x = x + R * sin(wd + heading) - R * sin(heading);
+      new_y = y - R * cos(wd + heading) + R * cos(heading);
+      new_heading = boundAngle(heading + wd);
+    }
+    
+    map.move(x, y);
+    robot.turn_angle(new_heading);
   }
 };

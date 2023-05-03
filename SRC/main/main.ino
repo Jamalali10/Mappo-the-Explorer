@@ -46,18 +46,20 @@ void setup() {
 
 void loop() {
   //ap_lite();
-  robot.stop();
-  pos_map.plot_points(PI/6, 0);
+  // robot.stop();
+  // pos_map.plot_points(PI/6, 0);
   
-  for (int i = 0; i < pos_map.size(); i++) {
-    for (int j = 0; j < pos_map.size(); j++) {
-      Serial.print(pos_map.get(i, j));
-      Serial.print(" ");
-    }
-    Serial.println();
-  }
+  // for (int i = 0; i < pos_map.size(); i++) {
+  //   for (int j = 0; j < pos_map.size(); j++) {
+  //     Serial.print(pos_map.get(i, j));
+  //     Serial.print(" ");
+  //   }
+  //   Serial.println();
+  // }
 
-  delay(1000000);
+  // delay(1000000);
+
+  robot.stop();
 }
 
 void ap_lite() {

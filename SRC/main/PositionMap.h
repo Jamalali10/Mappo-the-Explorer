@@ -83,9 +83,10 @@ public:
     float x1 = r * cos(theta);
     float y1 = r * sin(theta);
 
-    // We want to go from where we detected the object to out beyond the map. 
-    float x2 = map_size * cos(theta);
-    float y2 = map_size * sin(theta);
+    // We want to go from where we detected the object out a few cells.
+    // TODO: This should be changed to be propertional to the max sensor range. 
+    float x2 = 3 * cos(theta);
+    float y2 = 3 * sin(theta);
     
     float dx = abs(x2 - x1);
     float dy = abs(y2 - y1);
