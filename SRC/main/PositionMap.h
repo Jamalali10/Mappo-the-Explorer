@@ -1,5 +1,7 @@
 #pragma once
 #include <math.h>
+#define PI 3.14159265358979323846
+
 
 class PositionMap { 
 private:
@@ -11,6 +13,7 @@ private:
   int location_x;
   int location_y;
 
+
   void plot(int x, int y) {
     int i = 0;
     int j = 0;
@@ -21,23 +24,23 @@ private:
     // with respect to the robot
     if (x >= 0 && y > 0) {
       // Quadrant 1
-      i = location_x + x;
-      j = location_y - y;
+      i = location_x - x;//jj
+      j = location_y + y;
     }
     if (x < 0 && y <= 0) {
       // Quadrant 2
-      i = location_x - x;
-      j = location_y - y;
+      i = location_x + x;//jj
+      j = location_y + y;//jj
     }
     if (x <= 0 && y < 0) {
       // Quadrant 3
       i = location_x - x;
-      j = location_y + y;
+      j = location_y - y;//jj
     }
     if (x > 0 && y <= 0) {
       // Quadrant 4
       i = location_x + x;
-      j = location_y + y;
+      j = location_y - y;//jj
     }
     
     // Check we are not out of bounds
